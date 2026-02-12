@@ -1,41 +1,75 @@
 <!DOCTYPE html>
 <html lang="th">
 <head>
-    <meta charset="UTF-8">
-    <title>My First Website</title>
-    <style>
-        body {
-            margin: 0;
-            font-family: Arial, sans-serif;
-            background: #111827;
-            color: white;
-            text-align: center;
-            padding-top: 100px;
-        }
-        h1 {
-            font-size: 48px;
-        }
-        p {
-            color: #9ca3af;
-        }
-        button {
-            padding: 12px 25px;
-            background: #3b82f6;
-            border: none;
-            color: white;
-            border-radius: 8px;
-            cursor: pointer;
-        }
-        button:hover {
-            background: #2563eb;
-        }
-    </style>
+<meta charset="UTF-8">
+<title>Keyboard A-Z</title>
+<style>
+    body {
+        margin: 0;
+        background: #111;
+        color: white;
+        font-family: Arial, sans-serif;
+        text-align: center;
+        padding-top: 50px;
+    }
+
+    h1 {
+        margin-bottom: 30px;
+    }
+
+    .keyboard {
+        display: grid;
+        grid-template-columns: repeat(13, 50px);
+        gap: 10px;
+        justify-content: center;
+    }
+
+    button {
+        height: 50px;
+        font-size: 18px;
+        border: none;
+        border-radius: 8px;
+        background: #333;
+        color: white;
+        cursor: pointer;
+        transition: 0.2s;
+    }
+
+    button:hover {
+        background: #3b82f6;
+    }
+
+    #output {
+        margin-top: 40px;
+        font-size: 40px;
+        letter-spacing: 5px;
+    }
+</style>
 </head>
 <body>
 
-    <h1>สวัสดีจาก CK 🚀</h1>
-    <p>เว็บไซต์แรกของฉันบน GitHub</p>
-    <button onclick="alert('ยินดีต้อนรับ!')">กดฉัน</button>
+<h1>Pls type ur name</h1>
+
+<div class="keyboard" id="keyboard"></div>
+
+<div id="output"></div>
+
+<script>
+    const keyboard = document.getElementById("keyboard");
+    const output = document.getElementById("output");
+
+    for (let i = 65; i <= 90; i++) {
+        let letter = String.fromCharCode(i);
+        let btn = document.createElement("button");
+        btn.textContent = letter;
+
+        btn.onclick = function () {
+            output.textContent += letter;
+        };
+
+        keyboard.appendChild(btn);
+    }
+</script>
 
 </body>
 </html>
