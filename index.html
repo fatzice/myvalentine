@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>U R Myvalentine</title>
+<title>Rose Surprise</title>
 
 <style>
     body {
@@ -18,7 +18,7 @@
     }
 
     h1 {
-        margin-bottom: 30px;
+        margin-bottom: 25px;
         font-size: 22px;
     }
 
@@ -51,10 +51,6 @@
         cursor: not-allowed;
     }
 
-    .actions {
-        margin-top: 10px;
-    }
-
     .actions button {
         width: 120px;
         margin: 5px;
@@ -67,24 +63,30 @@
 
     #output {
         margin-top: 30px;
-        font-size: 40px;
-        word-wrap: break-word;
+        font-size: 35px;
+        letter-spacing: 5px;
     }
 
-    /* ช่อดอกไม้ */
+    #error {
+        margin-top: 15px;
+        color: #ff4d6d;
+        font-size: 20px;
+        min-height: 24px;
+    }
+
     #bouquet {
         position: fixed;
         top: 50%;
         left: 50%;
         transform: translate(-50%, -50%) scale(0);
-        font-size: 100px; /* เริ่มต้นใหญ่แล้ว */
+        font-size: 120px;
         opacity: 0;
         transition: transform 2s cubic-bezier(.17,.67,.83,.67), opacity 1.5s ease;
         pointer-events: none;
     }
 
     #bouquet.show {
-        transform: translate(-50%, -50%) scale(8); /* เวอร์มาก */
+        transform: translate(-50%, -50%) scale(8);
         opacity: 1;
     }
 
@@ -101,11 +103,12 @@
 <div class="keyboard" id="keyboard"></div>
 
 <div class="actions" id="actions">
-    <button id="deleteBtn">Delete ✨</button>
-    <button id="finishBtn">Finish 🤍</button>
+    <button id="deleteBtn">Delete</button>
+    <button id="finishBtn">Finish</button>
 </div>
 
 <div id="output"></div>
+<div id="error"></div>
 <div id="bouquet">💐</div>
 
 <script>
@@ -114,11 +117,12 @@
     const bouquet = document.getElementById("bouquet");
     const deleteBtn = document.getElementById("deleteBtn");
     const finishBtn = document.getElementById("finishBtn");
-    const actions = document.getElementById("actions");
-    const title = document.getElementById("title");
+    const errorText = document.getElementById("error");
 
     const allowedLetters = ["L","E","Y","A","K","O","R","N","U"];
-    let roseCount = 0;
+    const correctName = "LEEYAKORN";
+
+    let typedName = "";
 
     for (let i = 65; i <= 90; i++) {
         const letter = String.fromCharCode(i);
@@ -127,8 +131,11 @@
 
         if (allowedLetters.includes(letter)) {
             btn.addEventListener("click", function () {
-                output.textContent += "🌹";
-                roseCount++;
+                if (typedName.length < correctName.length) {
+                    typedName += letter;
+                    output.textContent = typedName;
+                    errorText.textContent = "";
+                }
             });
         } else {
             btn.disabled = true;
@@ -138,28 +145,29 @@
     }
 
     deleteBtn.addEventListener("click", function () {
-        if (roseCount > 0) {
-            roseCount--;
-            output.textContent = "🌹".repeat(roseCount);
-        }
+        typedName = typedName.slice(0, -1);
+        output.textContent = typedName;
+        errorText.textContent = "";
     });
 
     finishBtn.addEventListener("click", function () {
-        if (roseCount > 0) {
+        if (typedName === correctName) {
 
             // ซ่อนทุกอย่าง
-            keyboard.classList.add("hide");
-            actions.classList.add("hide");
-            output.classList.add("hide");
-            title.classList.add("hide");
+            document.getElementById("keyboard").classList.add("hide");
+            document.getElementById("actions").classList.add("hide");
+            document.getElementById("output").classList.add("hide");
+            document.getElementById("title").classList.add("hide");
+            document.getElementById("error").classList.add("hide");
 
-            // เปลี่ยนพื้นหลังให้โรแมนติกขึ้น
             document.body.style.background = "black";
 
-            // แสดงช่อดอกไม้แบบเวอร์
             setTimeout(() => {
                 bouquet.classList.add("show");
             }, 200);
+
+        } else {
+            errorText.textContent = "เอ๊ะ! พิมพ์ใหม่สิ๊ เอาชื่อจริง 😜";
         }
     });
 </script>
