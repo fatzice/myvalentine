@@ -217,11 +217,11 @@ button:disabled{
 </div>
 
 <div class="popup" id="popup1">สุขสันต์วันวาเลนไทน์นะน้องยู ❤️</div>
-<div class="popup" id="popup2">ขอโทษที่บางครั้งไม่ได้ตอบไป หายไป</div>
+<div class="popup" id="popup2">ขอโทษที่บางครั้งไม่ได้ตอบไป</div>
 <div class="popup" id="popup0">แค่คิดว่าบางมุมเราน่าจะจูนกันไม่ติด</div>
 
 <div class="popup" id="popup3">
-    ยูคิดว่าพี่พอจะมีแววบ้างไหม?
+    ยูคิดว่าพี่พอจะมีแววบ้างมั้ย?
     <br>
     <button id="yesBtn">Yes</button>
     <button id="noBtn">No</button>
@@ -308,19 +308,19 @@ function showPopup1(){
         popup1.style.display="none";
         popup2.style.display="block";
         popup2.classList.add("showPopup");
-    },2500);
+    },3500);
 
     setTimeout(()=>{
         popup2.style.display="none";
         popup0.style.display="block";
         popup0.classList.add("showPopup");
-    },5000);
+    },7000);
 
     setTimeout(()=>{
         popup0.style.display="none";
         popup3.style.display="block";
         popup3.classList.add("showPopup");
-    },7500);
+    },10500);
 }
 
 yesBtn.onclick=()=>{
