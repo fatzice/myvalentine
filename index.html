@@ -12,8 +12,28 @@ body{
     text-align:center;
     padding:40px 10px;
     overflow:hidden;
-    background:linear-gradient(135deg,#ff9ecf,#ffcce6,#ffe6f2);
+
+    background:
+    linear-gradient(135deg,#ff9ecf,#ffcce6,#ffe6f2),
+    repeating-linear-gradient(
+        45deg,
+        rgba(255,255,255,0.08) 0px,
+        rgba(255,255,255,0.08) 2px,
+        transparent 2px,
+        transparent 8px
+    );
+
+    background-blend-mode:overlay;
+    background-size:cover;
     color:#fff;
+}
+
+body::after{
+    content:"";
+    position:fixed;
+    inset:0;
+    background:radial-gradient(circle at 30% 30%,rgba(255,255,255,0.4),transparent 60%);
+    pointer-events:none;
 }
 
 h1{margin-bottom:25px;font-size:24px;text-shadow:0 0 10px rgba(255,255,255,0.7);}
@@ -54,8 +74,7 @@ button:disabled{
 #error{margin-top:15px;font-size:20px;min-height:24px;text-shadow:0 0 10px #ff4d88;}
 .hide{display:none;}
 
-/* bouquet (ไม่ซูมแล้ว) */
-#bouquet{
+#introImage{
     position:fixed;
     top:50%;
     left:50%;
@@ -64,22 +83,18 @@ button:disabled{
     pointer-events:none;
 }
 
-#bouquet img{
-    width:200px;
+#introImage img{
+    width:150px;
     height:auto;
     filter:drop-shadow(0 0 40px rgba(255,255,255,0.9));
 }
 
-.showBouquet{
-    animation:fadeIn 1.5s forwards;
-}
+.fadeIn{animation:fadeIn 1.5s forwards;}
+.fadeOut{animation:fadeOut 2s forwards;}
 
-@keyframes fadeIn{
-    from{opacity:0; transform:translate(-50%,-60%);}
-    to{opacity:1; transform:translate(-50%,-50%);}
-}
+@keyframes fadeIn{from{opacity:0;}to{opacity:1;}}
+@keyframes fadeOut{from{opacity:1;}to{opacity:0;}}
 
-/* popup animation */
 .popup{
     position:fixed;
     top:50%;
@@ -122,13 +137,21 @@ button:disabled{
     to{transform:scale(1.2);}
 }
 
+/* 🔥 3.png ใหม่ */
 #noImg{
-    width:60px;
+    width:110px;
     position:absolute;
-    bottom:-70px;
+    bottom:-90px;
     left:50%;
     transform:translateX(-50%);
     display:none;
+    filter:drop-shadow(0 0 20px rgba(255,77,136,0.6));
+    animation:softFloat 2s ease-in-out infinite alternate;
+}
+
+@keyframes softFloat{
+    from{transform:translateX(-50%) translateY(0);}
+    to{transform:translateX(-50%) translateY(-10px);}
 }
 
 /* hearts */
@@ -157,8 +180,8 @@ button:disabled{
 <div id="output"></div>
 <div id="error"></div>
 
-<div id="bouquet">
-    <img src="2.png" alt="bouquet">
+<div id="introImage">
+    <img src="1.png" alt="intro">
 </div>
 
 <div class="popup" id="popup1">สุขสันต์วันวาเลนไทน์นะน้องยู ❤️</div>
@@ -176,9 +199,10 @@ button:disabled{
 </div>
 
 <script>
+// JS เดิมทั้งหมดของเธอ (ไม่เปลี่ยน logic)
 const keyboard=document.getElementById("keyboard");
 const output=document.getElementById("output");
-const bouquet=document.getElementById("bouquet");
+const introImage=document.getElementById("introImage");
 const deleteBtn=document.getElementById("deleteBtn");
 const finishBtn=document.getElementById("finishBtn");
 const errorText=document.getElementById("error");
@@ -227,9 +251,14 @@ finishBtn.onclick=()=>{
         title.classList.add("hide");
         errorText.classList.add("hide");
 
-        bouquet.classList.add("showBouquet");
+        introImage.classList.add("fadeIn");
 
-        setTimeout(showPopup1,2000);
+        setTimeout(()=>{
+            introImage.classList.remove("fadeIn");
+            introImage.classList.add("fadeOut");
+        },2000);
+
+        setTimeout(showPopup1,4000);
 
     }else{
         errorText.textContent="เอ๊ะ! พิมพ์ใหม่สิ๊ เอาชื่อจริง 😜";
