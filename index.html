@@ -12,11 +12,9 @@ body{
     text-align:center;
     padding:40px 10px;
     overflow:hidden;
-
     background:linear-gradient(135deg,#ff9ecf,#ffcce6,#ffe6f2);
     background-attachment:fixed;
     background-size:cover;
-
     color:#fff;
 }
 
@@ -61,13 +59,11 @@ button:disabled{
 }
 
 .actions button{width:120px;margin:5px;}
-
 #output{margin-top:30px;font-size:35px;letter-spacing:5px;}
 #error{margin-top:15px;font-size:20px;min-height:24px;text-shadow:0 0 10px #ff4d88;}
 .hide{display:none;}
 
-/* ---------- 2.png EFFECT ---------- */
-
+/* 2.png */
 #introImage{
     position:fixed;
     top:50%;
@@ -89,25 +85,13 @@ button:disabled{
 }
 
 @keyframes gentleZoomAnim{
-    0%{
-        opacity:0;
-        transform:translate(-50%,-50%) scale(0.8);
-    }
-    40%{
-        opacity:1;
-        transform:translate(-50%,-50%) scale(1);
-    }
-    70%{
-        transform:translate(-50%,-50%) scale(1.15);
-    }
-    100%{
-        opacity:0;
-        transform:translate(-50%,-50%) scale(1.2);
-    }
+    0%{opacity:0;transform:translate(-50%,-50%) scale(0.8);}
+    40%{opacity:1;transform:translate(-50%,-50%) scale(1);}
+    70%{transform:translate(-50%,-50%) scale(1.15);}
+    100%{opacity:0;transform:translate(-50%,-50%) scale(1.2);}
 }
 
-/* ---------- POPUP ---------- */
-
+/* popup */
 .popup{
     position:fixed;
     top:50%;
@@ -128,9 +112,9 @@ button:disabled{
 }
 
 @keyframes popupAnim{
-    0%{opacity:0; transform:translate(-50%,-60%) scale(0.8);}
-    60%{opacity:1; transform:translate(-50%,-48%) scale(1.05);}
-    100%{opacity:1; transform:translate(-50%,-50%) scale(1);}
+    0%{opacity:0;transform:translate(-50%,-60%) scale(0.8);}
+    60%{opacity:1;transform:translate(-50%,-48%) scale(1.05);}
+    100%{opacity:1;transform:translate(-50%,-50%) scale(1);}
 }
 
 .popup button{
@@ -141,19 +125,34 @@ button:disabled{
     color:#fff;
 }
 
-/* ---------- floating images ---------- */
-
-#noImg,#finalImg{
+/* ลอยนอกกล่อง */
+#noImg{
+    position:fixed;
+    bottom:120px;
+    left:50%;
+    transform:translateX(-50%);
     width:120px;
-    margin-top:15px;
     display:none;
     filter:drop-shadow(0 0 25px rgba(255,77,136,0.7));
     animation:softFloat 2s ease-in-out infinite alternate;
+    z-index:1000;
+}
+
+#finalImg{
+    position:fixed;
+    bottom:120px;
+    left:50%;
+    transform:translateX(-50%);
+    width:140px;
+    display:none;
+    filter:drop-shadow(0 0 30px rgba(255,77,136,0.8));
+    animation:softFloat 2s ease-in-out infinite alternate;
+    z-index:1000;
 }
 
 @keyframes softFloat{
-    from{transform:translateY(0);}
-    to{transform:translateY(-10px);}
+    from{transform:translateX(-50%) translateY(0);}
+    to{transform:translateX(-50%) translateY(-12px);}
 }
 
 .blink{
@@ -202,19 +201,21 @@ button:disabled{
     <br>
     <button id="yesBtn">Yes</button>
     <button id="noBtn">No</button>
-    <img src="3.png" id="noImg">
 </div>
 
 <div class="popup" id="popup4">
-    ขอโทษที่ปีนี้ไม่มีดอกไม้ให้เลย 💐<br>
+    ขอโทษที่ไม่มีดอกไม้ให้ปีนี้เลย 💐<br>
+    ปีหน้าขอให้พี่ได้ให้ด้วยตัวเองนะ
     <br><br>
     <input type="text" id="replyInput"
         placeholder="ตอบอะไรหน่อยสิ..."
         style="padding:8px;border-radius:10px;border:none;width:200px;">
     <br>
     <button id="sendBtn">ส่ง</button>
-    <img src="4.png" id="finalImg">
 </div>
+
+<img src="3.png" id="noImg">
+<img src="4.jpg" id="finalImg">
 
 <script>
 const keyboard=document.getElementById("keyboard");
@@ -234,7 +235,6 @@ const popup4=document.getElementById("popup4");
 const yesBtn=document.getElementById("yesBtn");
 const noBtn=document.getElementById("noBtn");
 const noImg=document.getElementById("noImg");
-
 const sendBtn=document.getElementById("sendBtn");
 const finalImg=document.getElementById("finalImg");
 
