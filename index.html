@@ -22,7 +22,6 @@ body{
         transparent 2px,
         transparent 8px
     );
-
     background-blend-mode:overlay;
     background-size:cover;
     color:#fff;
@@ -74,6 +73,8 @@ button:disabled{
 #error{margin-top:15px;font-size:20px;min-height:24px;text-shadow:0 0 10px #ff4d88;}
 .hide{display:none;}
 
+/* ---------- 1.png EFFECT ใหม่ ---------- */
+
 #introImage{
     position:fixed;
     top:50%;
@@ -86,14 +87,33 @@ button:disabled{
 #introImage img{
     width:150px;
     height:auto;
-    filter:drop-shadow(0 0 40px rgba(255,255,255,0.9));
+    filter:drop-shadow(0 0 30px rgba(255,255,255,0.8));
 }
 
-.fadeIn{animation:fadeIn 1.5s forwards;}
-.fadeOut{animation:fadeOut 2s forwards;}
+/* ลอย + ซูมนิดเดียว */
+.gentleZoom{
+    animation:gentleZoomAnim 3s ease-in-out forwards;
+}
 
-@keyframes fadeIn{from{opacity:0;}to{opacity:1;}}
-@keyframes fadeOut{from{opacity:1;}to{opacity:0;}}
+@keyframes gentleZoomAnim{
+    0%{
+        opacity:0;
+        transform:translate(-50%,-50%) scale(1);
+    }
+    40%{
+        opacity:1;
+        transform:translate(-50%,-50%) scale(1.1);
+    }
+    70%{
+        transform:translate(-50%,-50%) scale(1.18);
+    }
+    100%{
+        opacity:0;
+        transform:translate(-50%,-50%) scale(1.2);
+    }
+}
+
+/* ---------- POPUP ---------- */
 
 .popup{
     position:fixed;
@@ -128,16 +148,8 @@ button:disabled{
     color:#fff;
 }
 
-.blink{
-    animation:blink 0.6s infinite alternate;
-}
+/* ---------- 3.png ---------- */
 
-@keyframes blink{
-    from{transform:scale(1);}
-    to{transform:scale(1.2);}
-}
-
-/* 🔥 3.png ใหม่ */
 #noImg{
     width:110px;
     position:absolute;
@@ -152,6 +164,14 @@ button:disabled{
 @keyframes softFloat{
     from{transform:translateX(-50%) translateY(0);}
     to{transform:translateX(-50%) translateY(-10px);}
+}
+
+.blink{
+    animation:blink 0.6s infinite alternate;
+}
+@keyframes blink{
+    from{transform:scale(1);}
+    to{transform:scale(1.2);}
 }
 
 /* hearts */
@@ -181,17 +201,13 @@ button:disabled{
 <div id="error"></div>
 
 <div id="introImage">
-    <img src="1.png" alt="intro">
+    <img src="2.png" alt="intro">
 </div>
 
 <div class="popup" id="popup1">สุขสันต์วันวาเลนไทน์นะน้องยู ❤️</div>
-
-<div class="popup" id="popup2">
-    ขอโทษที่บางครั้งไม่ได้ตอบไป
-</div>
-
+<div class="popup" id="popup2">ขอโทษที่บางครั้งไม่ได้ตอบไป</div>
 <div class="popup" id="popup3">
-    ยูคิดว่าเราจะจูนกันติดมั้ย?
+    ยูคิดว่าพี่พอจะมีแววบ้างไหม?
     <br>
     <button id="yesBtn">Yes</button>
     <button id="noBtn">No</button>
@@ -199,7 +215,6 @@ button:disabled{
 </div>
 
 <script>
-// JS เดิมทั้งหมดของเธอ (ไม่เปลี่ยน logic)
 const keyboard=document.getElementById("keyboard");
 const output=document.getElementById("output");
 const introImage=document.getElementById("introImage");
@@ -251,14 +266,9 @@ finishBtn.onclick=()=>{
         title.classList.add("hide");
         errorText.classList.add("hide");
 
-        introImage.classList.add("fadeIn");
+        introImage.classList.add("gentleZoom");
 
-        setTimeout(()=>{
-            introImage.classList.remove("fadeIn");
-            introImage.classList.add("fadeOut");
-        },2000);
-
-        setTimeout(showPopup1,4000);
+        setTimeout(showPopup1,3200);
 
     }else{
         errorText.textContent="เอ๊ะ! พิมพ์ใหม่สิ๊ เอาชื่อจริง 😜";
