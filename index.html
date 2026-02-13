@@ -3,23 +3,23 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>U R Myvalentine</title>
+<title>U R MyValentine</title>
 
 <style>
     body {
         margin: 0;
-        background: #111;
-        color: white;
         font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
         text-align: center;
         padding: 40px 10px;
         overflow: hidden;
-        transition: background 1s ease;
+        background: linear-gradient(135deg, #ff9ecf, #ffcce6, #ffe6f2);
+        color: #fff;
     }
 
     h1 {
-        margin-bottom: 30px;
-        font-size: 22px;
+        margin-bottom: 25px;
+        font-size: 24px;
+        text-shadow: 0 0 10px rgba(255,255,255,0.7);
     }
 
     .keyboard {
@@ -34,69 +34,89 @@
         height: 45px;
         font-size: 16px;
         border: none;
-        border-radius: 8px;
-        background: #333;
-        color: white;
+        border-radius: 10px;
+        background: rgba(255,255,255,0.3);
+        color: #fff;
+        backdrop-filter: blur(5px);
         cursor: pointer;
-        transition: background 0.2s ease;
+        transition: all 0.2s ease;
     }
 
     button:hover:not(:disabled) {
-        background: #e11d48;
+        background: #ff4d88;
+        transform: scale(1.05);
     }
 
     button:disabled {
-        background: #1a1a1a;
-        color: #555;
+        background: rgba(255,255,255,0.1);
+        color: rgba(255,255,255,0.4);
         cursor: not-allowed;
-    }
-
-    .actions {
-        margin-top: 10px;
     }
 
     .actions button {
         width: 120px;
         margin: 5px;
-        background: #444;
-    }
-
-    .actions button:hover {
-        background: #e11d48;
     }
 
     #output {
         margin-top: 30px;
-        font-size: 40px;
-        word-wrap: break-word;
+        font-size: 35px;
+        letter-spacing: 5px;
     }
 
-    /* ช่อดอกไม้ */
+    #error {
+        margin-top: 15px;
+        color: #fff;
+        font-size: 20px;
+        min-height: 24px;
+        text-shadow: 0 0 10px #ff4d88;
+    }
+
     #bouquet {
         position: fixed;
         top: 50%;
         left: 50%;
         transform: translate(-50%, -50%) scale(0);
-        font-size: 100px; /* เริ่มต้นใหญ่แล้ว */
         opacity: 0;
         transition: transform 2s cubic-bezier(.17,.67,.83,.67), opacity 1.5s ease;
         pointer-events: none;
     }
 
+    #bouquet img {
+        width: 200px;
+        height: auto;
+        filter: drop-shadow(0 0 40px rgba(255,255,255,0.9));
+    }
+
     #bouquet.show {
-        transform: translate(-50%, -50%) scale(8); /* เวอร์มาก */
+        transform: translate(-50%, -50%) scale(8);
         opacity: 1;
     }
 
     .hide {
         display: none;
     }
+
+    .heart {
+        position: fixed;
+        top: -10px;
+        font-size: 20px;
+        animation: fall linear forwards;
+        opacity: 0.8;
+        pointer-events: none;
+    }
+
+    @keyframes fall {
+        to {
+            transform: translateY(110vh);
+        }
+    }
 </style>
 </head>
 
 <body>
 
-<h1 id="title">Pls type ur name</h1>
+<h1 id="title">Say your name !</h1>
 
 <div class="keyboard" id="keyboard"></div>
 
@@ -106,7 +126,11 @@
 </div>
 
 <div id="output"></div>
-<div id="bouquet">💐</div>
+<div id="error"></div>
+
+<div id="bouquet">
+    <img src="1.png" alt="bouquet">
+</div>
 
 <script>
     const keyboard = document.getElementById("keyboard");
@@ -114,11 +138,13 @@
     const bouquet = document.getElementById("bouquet");
     const deleteBtn = document.getElementById("deleteBtn");
     const finishBtn = document.getElementById("finishBtn");
+    const errorText = document.getElementById("error");
     const actions = document.getElementById("actions");
     const title = document.getElementById("title");
 
     const allowedLetters = ["L","E","Y","A","K","O","R","N","U"];
-    let roseCount = 0;
+    const correctName = "LEEYAKORN";
+    let typedName = "";
 
     for (let i = 65; i <= 90; i++) {
         const letter = String.fromCharCode(i);
@@ -127,8 +153,11 @@
 
         if (allowedLetters.includes(letter)) {
             btn.addEventListener("click", function () {
-                output.textContent += "🌹";
-                roseCount++;
+                if (typedName.length < correctName.length) {
+                    typedName += letter;
+                    output.textContent = typedName;
+                    errorText.textContent = "";
+                }
             });
         } else {
             btn.disabled = true;
@@ -138,30 +167,44 @@
     }
 
     deleteBtn.addEventListener("click", function () {
-        if (roseCount > 0) {
-            roseCount--;
-            output.textContent = "🌹".repeat(roseCount);
-        }
+        typedName = typedName.slice(0, -1);
+        output.textContent = typedName;
+        errorText.textContent = "";
     });
 
     finishBtn.addEventListener("click", function () {
-        if (roseCount > 0) {
+        if (typedName === correctName) {
 
-            // ซ่อนทุกอย่าง
             keyboard.classList.add("hide");
             actions.classList.add("hide");
             output.classList.add("hide");
             title.classList.add("hide");
+            errorText.classList.add("hide");
 
-            // เปลี่ยนพื้นหลังให้โรแมนติกขึ้น
-            document.body.style.background = "black";
-
-            // แสดงช่อดอกไม้แบบเวอร์
             setTimeout(() => {
                 bouquet.classList.add("show");
-            }, 100);
+            }, 200);
+
+        } else {
+            errorText.textContent = "เอ๊ะ! พิมพ์ใหม่สิ๊ เอาชื่อจริง 😜";
         }
     });
+
+    function createHeart() {
+        const heart = document.createElement("div");
+        heart.classList.add("heart");
+        heart.textContent = "🤍";
+        heart.style.left = Math.random() * 100 + "vw";
+        heart.style.animationDuration = (Math.random() * 3 + 3) + "s";
+        heart.style.fontSize = (Math.random() * 20 + 15) + "px";
+        document.body.appendChild(heart);
+
+        setTimeout(() => {
+            heart.remove();
+        }, 6000);
+    }
+
+    setInterval(createHeart, 300);
 </script>
 
 </body>
