@@ -2,6 +2,7 @@
 <html lang="th">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Rose Keyboard</title>
 
 <style>
@@ -9,33 +10,35 @@
         margin: 0;
         background: #111;
         color: white;
-        font-family: Arial, sans-serif;
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
         text-align: center;
-        padding-top: 50px;
+        padding: 40px 10px;
         overflow: hidden;
+        transition: background 1s ease;
     }
 
     h1 {
         margin-bottom: 30px;
+        font-size: 22px;
     }
 
     .keyboard {
         display: grid;
-        grid-template-columns: repeat(13, 50px);
-        gap: 10px;
-        justify-content: center;
-        margin-bottom: 20px;
+        grid-template-columns: repeat(auto-fit, minmax(45px, 1fr));
+        gap: 8px;
+        max-width: 600px;
+        margin: 0 auto 20px auto;
     }
 
     button {
-        height: 50px;
-        font-size: 18px;
+        height: 45px;
+        font-size: 16px;
         border: none;
         border-radius: 8px;
         background: #333;
         color: white;
         cursor: pointer;
-        transition: 0.2s;
+        transition: background 0.2s ease;
     }
 
     button:hover:not(:disabled) {
@@ -46,6 +49,10 @@
         background: #1a1a1a;
         color: #555;
         cursor: not-allowed;
+    }
+
+    .actions {
+        margin-top: 10px;
     }
 
     .actions button {
@@ -59,9 +66,9 @@
     }
 
     #output {
-        margin-top: 40px;
-        font-size: 45px;
-        letter-spacing: 8px;
+        margin-top: 30px;
+        font-size: 40px;
+        word-wrap: break-word;
     }
 
     /* ช่อดอกไม้ */
@@ -70,28 +77,32 @@
         top: 50%;
         left: 50%;
         transform: translate(-50%, -50%) scale(0);
-        font-size: 20px;
+        font-size: 100px; /* เริ่มต้นใหญ่แล้ว */
         opacity: 0;
-        transition: all 1.5s ease;
+        transition: transform 2s cubic-bezier(.17,.67,.83,.67), opacity 1.5s ease;
         pointer-events: none;
     }
 
     #bouquet.show {
-        transform: translate(-50%, -50%) scale(6);
+        transform: translate(-50%, -50%) scale(8); /* เวอร์มาก */
         opacity: 1;
+    }
+
+    .hide {
+        display: none;
     }
 </style>
 </head>
 
 <body>
 
-<h1>Pls type ur name</h1>
+<h1 id="title">Pls type ur name</h1>
 
 <div class="keyboard" id="keyboard"></div>
 
-<div class="actions">
-    <button onclick="deleteLast()">Delete✨</button>
-    <button onclick="finish()">Finish🤍</button>
+<div class="actions" id="actions">
+    <button id="deleteBtn">Delete</button>
+    <button id="finishBtn">Finish</button>
 </div>
 
 <div id="output"></div>
@@ -101,16 +112,24 @@
     const keyboard = document.getElementById("keyboard");
     const output = document.getElementById("output");
     const bouquet = document.getElementById("bouquet");
+    const deleteBtn = document.getElementById("deleteBtn");
+    const finishBtn = document.getElementById("finishBtn");
+    const actions = document.getElementById("actions");
+    const title = document.getElementById("title");
 
     const allowedLetters = ["L","E","Y","A","K","O","R","N","U"];
+    let roseCount = 0;
 
     for (let i = 65; i <= 90; i++) {
-        let letter = String.fromCharCode(i);
-        let btn = document.createElement("button");
+        const letter = String.fromCharCode(i);
+        const btn = document.createElement("button");
         btn.textContent = letter;
 
         if (allowedLetters.includes(letter)) {
-            btn.onclick = () => output.textContent += "🌹";
+            btn.addEventListener("click", function () {
+                output.textContent += "🌹";
+                roseCount++;
+            });
         } else {
             btn.disabled = true;
         }
@@ -118,16 +137,31 @@
         keyboard.appendChild(btn);
     }
 
-    function deleteLast() {
-        let current = output.textContent;
-        output.textContent = current.slice(0, -2);
-    }
-
-    function finish() {
-        if (output.textContent.length > 0) {
-            bouquet.classList.add("show");
+    deleteBtn.addEventListener("click", function () {
+        if (roseCount > 0) {
+            roseCount--;
+            output.textContent = "🌹".repeat(roseCount);
         }
-    }
+    });
+
+    finishBtn.addEventListener("click", function () {
+        if (roseCount > 0) {
+
+            // ซ่อนทุกอย่าง
+            keyboard.classList.add("hide");
+            actions.classList.add("hide");
+            output.classList.add("hide");
+            title.classList.add("hide");
+
+            // เปลี่ยนพื้นหลังให้โรแมนติกขึ้น
+            document.body.style.background = "black";
+
+            // แสดงช่อดอกไม้แบบเวอร์
+            setTimeout(() => {
+                bouquet.classList.add("show");
+            }, 200);
+        }
+    });
 </script>
 
 </body>
