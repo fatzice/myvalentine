@@ -1,3 +1,5 @@
+
+คุณพูดว่า:
 <!DOCTYPE html>
 <html lang="th">
 <head>
@@ -63,6 +65,7 @@ button:disabled{
 #error{margin-top:15px;font-size:20px;min-height:24px;text-shadow:0 0 10px #ff4d88;}
 .hide{display:none;}
 
+/* 2.png */
 #introImage{
     position:fixed;
     top:50%;
@@ -90,6 +93,7 @@ button:disabled{
     100%{opacity:0;transform:translate(-50%,-50%) scale(1.2);}
 }
 
+/* popup */
 .popup{
     position:fixed;
     top:50%;
@@ -115,25 +119,37 @@ button:disabled{
     100%{opacity:1;transform:translate(-50%,-50%) scale(1);}
 }
 
-#noImg,#finalImg{
+.popup button{
+    margin-top:15px;
+    width:90px;
+    height:40px;
+    background:#ff4d88;
+    color:#fff;
+}
+
+/* ลอยนอกกล่อง */
+#noImg{
     position:fixed;
     bottom:120px;
     left:50%;
     transform:translateX(-50%);
+    width:120px;
     display:none;
+    filter:drop-shadow(0 0 25px rgba(255,77,136,0.7));
+    animation:softFloat 2s ease-in-out infinite alternate;
     z-index:1000;
 }
 
-#noImg{
-    width:120px;
-    filter:drop-shadow(0 0 25px rgba(255,77,136,0.7));
-    animation:softFloat 2s ease-in-out infinite alternate;
-}
-
 #finalImg{
+    position:fixed;
+    bottom:120px;
+    left:50%;
+    transform:translateX(-50%);
     width:140px;
+    display:none;
     filter:drop-shadow(0 0 30px rgba(255,77,136,0.8));
     animation:softFloat 2s ease-in-out infinite alternate;
+    z-index:1000;
 }
 
 @keyframes softFloat{
@@ -149,6 +165,7 @@ button:disabled{
     to{transform:scale(1.2);}
 }
 
+/* hearts */
 .heart{
     position:fixed;
     top:-10px;
@@ -188,10 +205,15 @@ button:disabled{
     <button id="noBtn">No</button>
 </div>
 
-<!-- ลบช่องตอบออกแล้ว -->
 <div class="popup" id="popup4">
     ขอโทษที่ไม่มีดอกไม้ให้ปีนี้เลย 💐<br>
     ปีหน้าขอให้พี่ได้ให้ด้วยตัวเองนะ
+    <br><br>
+    <input type="text" id="replyInput"
+        placeholder="ตอบอะไรหน่อยสิ..."
+        style="padding:8px;border-radius:10px;border:none;width:200px;">
+    <br>
+    <button id="sendBtn">ส่ง</button>
 </div>
 
 <img src="3.png" id="noImg">
@@ -215,6 +237,7 @@ const popup4=document.getElementById("popup4");
 const yesBtn=document.getElementById("yesBtn");
 const noBtn=document.getElementById("noBtn");
 const noImg=document.getElementById("noImg");
+const sendBtn=document.getElementById("sendBtn");
 const finalImg=document.getElementById("finalImg");
 
 const allowedLetters=["L","E","Y","A","K","O","R","N","U"];
@@ -277,23 +300,17 @@ function showPopup1(){
 
 yesBtn.onclick=()=>{
     popup3.style.display="none";
-
-    // ซ่อน 3.png
-    noImg.style.display="none";
-
-    // แสดง popup สุดท้าย
     popup4.style.display="block";
     popup4.classList.add("showPopup");
-
-    // รูป 4 เด้งขึ้นเอง
-    setTimeout(()=>{
-        finalImg.style.display="block";
-    },800);
 };
 
 noBtn.onclick=()=>{
     noImg.style.display="block";
     yesBtn.classList.add("blink");
+};
+
+sendBtn.onclick=()=>{
+    finalImg.style.display="block";
 };
 
 function createHeart(){
