@@ -6,118 +6,141 @@
 <title>U R MyValentine</title>
 
 <style>
-    body {
-        margin: 0;
-        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
-        text-align: center;
-        padding: 40px 10px;
-        overflow: hidden;
-        background: linear-gradient(135deg, #ff9ecf, #ffcce6, #ffe6f2);
-        color: #fff;
-    }
+body{
+    margin:0;
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;
+    text-align:center;
+    padding:40px 10px;
+    overflow:hidden;
+    background:linear-gradient(135deg,#ff9ecf,#ffcce6,#ffe6f2);
+    color:#fff;
+}
 
-    h1 {
-        margin-bottom: 25px;
-        font-size: 24px;
-        text-shadow: 0 0 10px rgba(255,255,255,0.7);
-    }
+h1{margin-bottom:25px;font-size:24px;text-shadow:0 0 10px rgba(255,255,255,0.7);}
 
-    .keyboard {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(45px, 1fr));
-        gap: 8px;
-        max-width: 600px;
-        margin: 0 auto 20px auto;
-    }
+.keyboard{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(45px,1fr));
+    gap:8px;
+    max-width:600px;
+    margin:0 auto 20px auto;
+}
 
-    button {
-        height: 45px;
-        font-size: 16px;
-        border: none;
-        border-radius: 10px;
-        background: rgba(255,255,255,0.3);
-        color: #fff;
-        backdrop-filter: blur(5px);
-        cursor: pointer;
-        transition: all 0.2s ease;
-    }
+button{
+    height:45px;
+    font-size:16px;
+    border:none;
+    border-radius:10px;
+    background:rgba(255,255,255,0.3);
+    color:#fff;
+    backdrop-filter:blur(5px);
+    cursor:pointer;
+    transition:all .2s ease;
+}
 
-    button:hover:not(:disabled) {
-        background: #ff4d88;
-        transform: scale(1.05);
-    }
+button:hover:not(:disabled){
+    background:#ff4d88;
+    transform:scale(1.05);
+}
 
-    button:disabled {
-        background: rgba(255,255,255,0.1);
-        color: rgba(255,255,255,0.4);
-        cursor: not-allowed;
-    }
+button:disabled{
+    background:rgba(255,255,255,0.1);
+    color:rgba(255,255,255,0.4);
+}
 
-    .actions button {
-        width: 120px;
-        margin: 5px;
-    }
+.actions button{width:120px;margin:5px;}
 
-    #output {
-        margin-top: 30px;
-        font-size: 35px;
-        letter-spacing: 5px;
-    }
+#output{margin-top:30px;font-size:35px;letter-spacing:5px;}
+#error{margin-top:15px;font-size:20px;min-height:24px;text-shadow:0 0 10px #ff4d88;}
+.hide{display:none;}
 
-    #error {
-        margin-top: 15px;
-        color: #fff;
-        font-size: 20px;
-        min-height: 24px;
-        text-shadow: 0 0 10px #ff4d88;
-    }
+/* bouquet */
+#bouquet{
+    position:fixed;
+    top:50%;
+    left:50%;
+    transform:translate(-50%,-50%) scale(0);
+    opacity:0;
+    pointer-events:none;
+}
 
-    #bouquet {
-        position: fixed;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%) scale(0);
-        opacity: 0;
-        transition: transform 2s cubic-bezier(.17,.67,.83,.67), opacity 1.5s ease;
-        pointer-events: none;
-    }
+#bouquet img{
+    width:200px;
+    height:auto;
+    filter:drop-shadow(0 0 40px rgba(255,255,255,0.9));
+}
 
-    #bouquet img {
-        width: 200px;
-        height: auto;
-        filter: drop-shadow(0 0 40px rgba(255,255,255,0.9));
-    }
+.zoomIn{animation:zoomIn 2s forwards;}
+.zoomBack{animation:zoomBack 2s forwards;}
+.fadeOut{animation:fadeOut 2s forwards;}
 
-    #bouquet.show {
-        transform: translate(-50%, -50%) scale(8);
-        opacity: 1;
-    }
+@keyframes zoomIn{
+    to{transform:translate(-50%,-50%) scale(8);opacity:1;}
+}
+@keyframes zoomBack{
+    to{transform:translate(-50%,-50%) scale(1);opacity:1;}
+}
+@keyframes fadeOut{
+    to{opacity:0;}
+}
 
-    .hide {
-        display: none;
-    }
+/* popup */
+.popup{
+    position:fixed;
+    top:50%;
+    left:50%;
+    transform:translate(-50%,-50%);
+    background:rgba(255,255,255,0.9);
+    color:#ff4d88;
+    padding:25px;
+    border-radius:15px;
+    font-size:20px;
+    display:none;
+    z-index:999;
+}
 
-    .heart {
-        position: fixed;
-        top: -10px;
-        font-size: 20px;
-        animation: fall linear forwards;
-        opacity: 0.8;
-        pointer-events: none;
-    }
+.popup button{
+    margin-top:15px;
+    width:80px;
+    height:40px;
+    background:#ff4d88;
+    color:#fff;
+}
 
-    @keyframes fall {
-        to {
-            transform: translateY(110vh);
-        }
-    }
+.blink{
+    animation:blink 0.6s infinite alternate;
+}
+
+@keyframes blink{
+    from{transform:scale(1);}
+    to{transform:scale(1.2);}
+}
+
+#noImg{
+    width:60px;
+    position:absolute;
+    bottom:-70px;
+    left:50%;
+    transform:translateX(-50%);
+    display:none;
+}
+
+/* falling hearts */
+.heart{
+    position:fixed;
+    top:-10px;
+    font-size:20px;
+    animation:fall linear forwards;
+    opacity:0.8;
+    pointer-events:none;
+}
+@keyframes fall{to{transform:translateY(110vh);}}
 </style>
 </head>
 
 <body>
 
 <h1 id="title">Say your name !</h1>
-
 <div class="keyboard" id="keyboard"></div>
 
 <div class="actions" id="actions">
@@ -128,83 +151,132 @@
 <div id="output"></div>
 <div id="error"></div>
 
+<!-- ✅ เปลี่ยนตรงนี้เป็น 2.png แล้ว -->
 <div id="bouquet">
     <img src="2.png" alt="bouquet">
 </div>
 
+<!-- POPUPS -->
+<div class="popup" id="popup1">สุขสันต์วันวาเลนไทน์นะน้องยู ❤️</div>
+
+<div class="popup" id="popup2">
+    ขอโทษที่บางครั้งไม่ได้ตอบไป
+</div>
+
+<div class="popup" id="popup3">
+    ยูคิดว่าเราจะจูนกันติดมั้ย?
+    <br>
+    <button id="yesBtn">Yes</button>
+    <button id="noBtn">No</button>
+    <img src="3.png" id="noImg">
+</div>
+
 <script>
-    const keyboard = document.getElementById("keyboard");
-    const output = document.getElementById("output");
-    const bouquet = document.getElementById("bouquet");
-    const deleteBtn = document.getElementById("deleteBtn");
-    const finishBtn = document.getElementById("finishBtn");
-    const errorText = document.getElementById("error");
-    const actions = document.getElementById("actions");
-    const title = document.getElementById("title");
+const keyboard=document.getElementById("keyboard");
+const output=document.getElementById("output");
+const bouquet=document.getElementById("bouquet");
+const deleteBtn=document.getElementById("deleteBtn");
+const finishBtn=document.getElementById("finishBtn");
+const errorText=document.getElementById("error");
+const actions=document.getElementById("actions");
+const title=document.getElementById("title");
 
-    const allowedLetters = ["L","E","Y","A","K","O","R","N","U"];
-    const correctName = "LEEYAKORN";
-    let typedName = "";
+const popup1=document.getElementById("popup1");
+const popup2=document.getElementById("popup2");
+const popup3=document.getElementById("popup3");
+const yesBtn=document.getElementById("yesBtn");
+const noBtn=document.getElementById("noBtn");
+const noImg=document.getElementById("noImg");
 
-    for (let i = 65; i <= 90; i++) {
-        const letter = String.fromCharCode(i);
-        const btn = document.createElement("button");
-        btn.textContent = letter;
+const allowedLetters=["L","E","Y","A","K","O","R","N","U"];
+const correctName="LEEYAKORN";
+let typedName="";
 
-        if (allowedLetters.includes(letter)) {
-            btn.addEventListener("click", function () {
-                if (typedName.length < correctName.length) {
-                    typedName += letter;
-                    output.textContent = typedName;
-                    errorText.textContent = "";
-                }
-            });
-        } else {
-            btn.disabled = true;
+for(let i=65;i<=90;i++){
+    const letter=String.fromCharCode(i);
+    const btn=document.createElement("button");
+    btn.textContent=letter;
+
+    if(allowedLetters.includes(letter)){
+        btn.onclick=()=>{
+            if(typedName.length<correctName.length){
+                typedName+=letter;
+                output.textContent=typedName;
+                errorText.textContent="";
+            }
         }
+    }else btn.disabled=true;
 
-        keyboard.appendChild(btn);
+    keyboard.appendChild(btn);
+}
+
+deleteBtn.onclick=()=>{
+    typedName=typedName.slice(0,-1);
+    output.textContent=typedName;
+    errorText.textContent="";
+};
+
+finishBtn.onclick=()=>{
+    if(typedName===correctName){
+
+        keyboard.classList.add("hide");
+        actions.classList.add("hide");
+        output.classList.add("hide");
+        title.classList.add("hide");
+        errorText.classList.add("hide");
+
+        bouquet.classList.add("zoomIn");
+
+        setTimeout(()=>{
+            bouquet.classList.remove("zoomIn");
+            bouquet.classList.add("zoomBack");
+        },2000);
+
+        setTimeout(()=>{
+            bouquet.classList.remove("zoomBack");
+            bouquet.classList.add("fadeOut");
+        },4000);
+
+        setTimeout(showPopup1,6000);
+
+    }else{
+        errorText.textContent="เอ๊ะ! พิมพ์ใหม่สิ๊ เอาชื่อจริง 😜";
     }
+};
 
-    deleteBtn.addEventListener("click", function () {
-        typedName = typedName.slice(0, -1);
-        output.textContent = typedName;
-        errorText.textContent = "";
-    });
+function showPopup1(){
+    popup1.style.display="block";
+    setTimeout(()=>{
+        popup1.style.display="none";
+        popup2.style.display="block";
+    },2500);
 
-    finishBtn.addEventListener("click", function () {
-        if (typedName === correctName) {
+    setTimeout(()=>{
+        popup2.style.display="none";
+        popup3.style.display="block";
+    },5000);
+}
 
-            keyboard.classList.add("hide");
-            actions.classList.add("hide");
-            output.classList.add("hide");
-            title.classList.add("hide");
-            errorText.classList.add("hide");
+yesBtn.onclick=()=>{
+    alert("รอภาคต่อก่อนนะ 😉");
+};
 
-            setTimeout(() => {
-                bouquet.classList.add("show");
-            }, 200);
+noBtn.onclick=()=>{
+    noImg.style.display="block";
+    yesBtn.classList.add("blink");
+};
 
-        } else {
-            errorText.textContent = "เอ๊ะ! พิมพ์ใหม่สิ๊ เอาชื่อจริง 😜";
-        }
-    });
-
-    function createHeart() {
-        const heart = document.createElement("div");
-        heart.classList.add("heart");
-        heart.textContent = "🤍";
-        heart.style.left = Math.random() * 100 + "vw";
-        heart.style.animationDuration = (Math.random() * 3 + 3) + "s";
-        heart.style.fontSize = (Math.random() * 20 + 15) + "px";
-        document.body.appendChild(heart);
-
-        setTimeout(() => {
-            heart.remove();
-        }, 6000);
-    }
-
-    setInterval(createHeart, 300);
+function createHeart(){
+    const heart=document.createElement("div");
+    heart.classList.add("heart");
+    heart.textContent="🤍";
+    heart.style.left=Math.random()*100+"vw";
+    heart.style.animationDuration=(Math.random()*3+3)+"s";
+    heart.style.fontSize=(Math.random()*20+15)+"px";
+    document.body.appendChild(heart);
+    setTimeout(()=>heart.remove(),6000);
+}
+setInterval(createHeart,300);
 </script>
 
 </body>
