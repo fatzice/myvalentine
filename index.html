@@ -173,6 +173,14 @@ button:disabled{
     pointer-events:none;
 }
 @keyframes fall{to{transform:translateY(110vh);}}
+
+/* success message */
+.success-msg{
+    color:#4CAF50;
+    font-size:16px;
+    margin-top:10px;
+    display:none;
+}
 </style>
 </head>
 
@@ -207,11 +215,7 @@ button:disabled{
     ขอโทษที่ปีนี้ไม่มีดอกไม้ให้เลย 💐<br>
     Hope U on love today na
     <br><br>
-    <input type="text" id="replyInput"
-        placeholder="ตอบอะไรหน่อยสิ..."
-        style="padding:8px;border-radius:10px;border:none;width:200px;">
-    <br>
-    <button id="sendBtn">ส่ง</button>
+    <button id="sendBtn" style="font-size:40px;background:transparent;width:auto;height:auto;">🤍</button>
 </div>
 
 <img src="3.png" id="noImg">
@@ -297,6 +301,7 @@ function showPopup1(){
 }
 
 yesBtn.onclick=()=>{
+    noImg.style.display="none";
     popup3.style.display="none";
     popup4.style.display="block";
     popup4.classList.add("showPopup");
@@ -307,7 +312,8 @@ noBtn.onclick=()=>{
     yesBtn.classList.add("blink");
 };
 
-sendBtn.onclick=()=>{
+// กดหัวใจแล้วแสดงรูป
+sendBtn.onclick = () => {
     finalImg.style.display="block";
 };
 
