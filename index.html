@@ -2,7 +2,7 @@
 <html lang="th">
 <head>
 <meta charset="UTF-8">
-<title>Keyboard A-Z</title>
+<title>Rose Keyboard</title>
 
 <style>
     body {
@@ -12,6 +12,7 @@
         font-family: Arial, sans-serif;
         text-align: center;
         padding-top: 50px;
+        overflow: hidden;
     }
 
     h1 {
@@ -23,6 +24,7 @@
         grid-template-columns: repeat(13, 50px);
         gap: 10px;
         justify-content: center;
+        margin-bottom: 20px;
     }
 
     button {
@@ -40,17 +42,43 @@
         background: #e11d48;
     }
 
-    /* ปุ่มที่กดไม่ได้ */
     button:disabled {
         background: #1a1a1a;
         color: #555;
         cursor: not-allowed;
     }
 
+    .actions button {
+        width: 120px;
+        margin: 5px;
+        background: #444;
+    }
+
+    .actions button:hover {
+        background: #e11d48;
+    }
+
     #output {
         margin-top: 40px;
-        font-size: 40px;
-        letter-spacing: 5px;
+        font-size: 45px;
+        letter-spacing: 8px;
+    }
+
+    /* ช่อดอกไม้ */
+    #bouquet {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%) scale(0);
+        font-size: 20px;
+        opacity: 0;
+        transition: all 1.5s ease;
+        pointer-events: none;
+    }
+
+    #bouquet.show {
+        transform: translate(-50%, -50%) scale(6);
+        opacity: 1;
     }
 </style>
 </head>
@@ -60,13 +88,20 @@
 <h1>Pls type ur name</h1>
 
 <div class="keyboard" id="keyboard"></div>
+
+<div class="actions">
+    <button onclick="deleteLast()">Delete✨</button>
+    <button onclick="finish()">Finish🤍</button>
+</div>
+
 <div id="output"></div>
+<div id="bouquet">💐</div>
 
 <script>
     const keyboard = document.getElementById("keyboard");
     const output = document.getElementById("output");
+    const bouquet = document.getElementById("bouquet");
 
-    // กดได้เฉพาะตัวอักษรพวกนี้
     const allowedLetters = ["L","E","Y","A","K","O","R","N","U"];
 
     for (let i = 65; i <= 90; i++) {
@@ -75,12 +110,23 @@
         btn.textContent = letter;
 
         if (allowedLetters.includes(letter)) {
-            btn.onclick = () => output.textContent += letter;
+            btn.onclick = () => output.textContent += "🌹";
         } else {
             btn.disabled = true;
         }
 
         keyboard.appendChild(btn);
+    }
+
+    function deleteLast() {
+        let current = output.textContent;
+        output.textContent = current.slice(0, -2);
+    }
+
+    function finish() {
+        if (output.textContent.length > 0) {
+            bouquet.classList.add("show");
+        }
     }
 </script>
 
