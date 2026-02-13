@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <title>Keyboard A-Z</title>
+
 <style>
     body {
         margin: 0;
@@ -35,8 +36,15 @@
         transition: 0.2s;
     }
 
-    button:hover {
-        background: #3b82f6;
+    button:hover:not(:disabled) {
+        background: #e11d48;
+    }
+
+    /* ปุ่มที่กดไม่ได้ */
+    button:disabled {
+        background: #1a1a1a;
+        color: #555;
+        cursor: not-allowed;
     }
 
     #output {
@@ -46,26 +54,31 @@
     }
 </style>
 </head>
+
 <body>
 
 <h1>Pls type ur name</h1>
 
 <div class="keyboard" id="keyboard"></div>
-
 <div id="output"></div>
 
 <script>
     const keyboard = document.getElementById("keyboard");
     const output = document.getElementById("output");
 
+    // กดได้เฉพาะตัวอักษรพวกนี้
+    const allowedLetters = ["L","E","Y","A","K","O","R","N","U"];
+
     for (let i = 65; i <= 90; i++) {
         let letter = String.fromCharCode(i);
         let btn = document.createElement("button");
         btn.textContent = letter;
 
-        btn.onclick = function () {
-            output.textContent += letter;
-        };
+        if (allowedLetters.includes(letter)) {
+            btn.onclick = () => output.textContent += letter;
+        } else {
+            btn.disabled = true;
+        }
 
         keyboard.appendChild(btn);
     }
