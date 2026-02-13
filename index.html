@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Rose Surprise</title>
+<title>Rose Keyboard</title>
 
 <style>
     body {
@@ -18,7 +18,7 @@
     }
 
     h1 {
-        margin-bottom: 25px;
+        margin-bottom: 30px;
         font-size: 22px;
     }
 
@@ -51,6 +51,10 @@
         cursor: not-allowed;
     }
 
+    .actions {
+        margin-top: 10px;
+    }
+
     .actions button {
         width: 120px;
         margin: 5px;
@@ -63,30 +67,24 @@
 
     #output {
         margin-top: 30px;
-        font-size: 35px;
-        letter-spacing: 5px;
+        font-size: 40px;
+        word-wrap: break-word;
     }
 
-    #error {
-        margin-top: 15px;
-        color: #ff4d6d;
-        font-size: 20px;
-        min-height: 24px;
-    }
-
+    /* ช่อดอกไม้ */
     #bouquet {
         position: fixed;
         top: 50%;
         left: 50%;
         transform: translate(-50%, -50%) scale(0);
-        font-size: 120px;
+        font-size: 100px; /* เริ่มต้นใหญ่แล้ว */
         opacity: 0;
         transition: transform 2s cubic-bezier(.17,.67,.83,.67), opacity 1.5s ease;
         pointer-events: none;
     }
 
     #bouquet.show {
-        transform: translate(-50%, -50%) scale(8);
+        transform: translate(-50%, -50%) scale(8); /* เวอร์มาก */
         opacity: 1;
     }
 
@@ -108,7 +106,6 @@
 </div>
 
 <div id="output"></div>
-<div id="error"></div>
 <div id="bouquet">💐</div>
 
 <script>
@@ -117,12 +114,11 @@
     const bouquet = document.getElementById("bouquet");
     const deleteBtn = document.getElementById("deleteBtn");
     const finishBtn = document.getElementById("finishBtn");
-    const errorText = document.getElementById("error");
+    const actions = document.getElementById("actions");
+    const title = document.getElementById("title");
 
     const allowedLetters = ["L","E","Y","A","K","O","R","N","U"];
-    const correctName = "LEEYAKORN";
-
-    let typedName = "";
+    let roseCount = 0;
 
     for (let i = 65; i <= 90; i++) {
         const letter = String.fromCharCode(i);
@@ -131,11 +127,8 @@
 
         if (allowedLetters.includes(letter)) {
             btn.addEventListener("click", function () {
-                if (typedName.length < correctName.length) {
-                    typedName += letter;
-                    output.textContent = typedName;
-                    errorText.textContent = "";
-                }
+                output.textContent += "🌹";
+                roseCount++;
             });
         } else {
             btn.disabled = true;
@@ -145,29 +138,28 @@
     }
 
     deleteBtn.addEventListener("click", function () {
-        typedName = typedName.slice(0, -1);
-        output.textContent = typedName;
-        errorText.textContent = "";
+        if (roseCount > 0) {
+            roseCount--;
+            output.textContent = "🌹".repeat(roseCount);
+        }
     });
 
     finishBtn.addEventListener("click", function () {
-        if (typedName === correctName) {
+        if (roseCount > 0) {
 
             // ซ่อนทุกอย่าง
-            document.getElementById("keyboard").classList.add("hide");
-            document.getElementById("actions").classList.add("hide");
-            document.getElementById("output").classList.add("hide");
-            document.getElementById("title").classList.add("hide");
-            document.getElementById("error").classList.add("hide");
+            keyboard.classList.add("hide");
+            actions.classList.add("hide");
+            output.classList.add("hide");
+            title.classList.add("hide");
 
+            // เปลี่ยนพื้นหลังให้โรแมนติกขึ้น
             document.body.style.background = "black";
 
+            // แสดงช่อดอกไม้แบบเวอร์
             setTimeout(() => {
                 bouquet.classList.add("show");
             }, 200);
-
-        } else {
-            errorText.textContent = "เอ๊ะ! พิมพ์ใหม่สิ๊ เอาชื่อจริง 😜";
         }
     });
 </script>
