@@ -3,18 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>U R MyValentine</title>
-
-<!-- Meta tags for Link Preview -->
-<meta property="og:title" content="💝">
-<meta property="og:description" content="...">
-<meta property="og:image" content="">
-<meta name="description" content="...">
-
-<!-- Twitter Card -->
-<meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="💝">
-<meta name="twitter:description" content="...">
+<title>💝</title>
+<meta name="robots" content="noindex, nofollow">
 
 <style>
 body{
@@ -212,6 +202,34 @@ button:disabled{
 
 <body>
 
+<!-- Welcome Screen -->
+<div id="welcomeScreen" style="
+    position:fixed;
+    inset:0;
+    background:linear-gradient(135deg,#ff9ecf,#ffcce6,#ffe6f2);
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    z-index:9999;
+">
+    <h1 style="font-size:48px;margin-bottom:30px;text-shadow:0 0 20px rgba(255,255,255,0.8);">💝</h1>
+    <p style="font-size:28px;margin-bottom:40px;">มาเริ่มกันเลย</p>
+    <button onclick="startExperience()" style="
+        padding:15px 40px;
+        font-size:20px;
+        background:#ff4d88;
+        color:#fff;
+        border:none;
+        border-radius:15px;
+        cursor:pointer;
+        box-shadow:0 5px 20px rgba(255,77,136,0.4);
+    ">เริ่มเลย ❤️</button>
+</div>
+
+<!-- Main Content -->
+<div id="mainContent" style="display:none;">
+
 <h1 id="title">Say your name !</h1>
 <div class="keyboard" id="keyboard"></div>
 
@@ -248,7 +266,15 @@ button:disabled{
 <img src="3.png" id="noImg">
 <img src="4.jpg" id="finalImg">
 
+</div><!-- End mainContent -->
+
 <script>
+// Function to start the experience
+function startExperience(){
+    document.getElementById("welcomeScreen").style.display = "none";
+    document.getElementById("mainContent").style.display = "block";
+}
+
 const keyboard=document.getElementById("keyboard");
 const output=document.getElementById("output");
 const introImage=document.getElementById("introImage");
